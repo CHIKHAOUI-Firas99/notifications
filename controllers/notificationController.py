@@ -5,16 +5,35 @@ from controllers.sendMail import send_emails
 
 from models.Notification import Notification
 from schemas.Emails import SendEmails
-
+from sqlalchemy import desc
 
 def get_notifications_by_user_id(db: Session, user_id: int):
-    
+    notifications = []
     with db as session:
-        notifications = session.query(Notification).filter(Notification.user_id == user_id,Notification.deleted==False).all()
-        if not notifications:
+        listnot = session.query(Notification).filter(Notification.user_id == user_id).order_by(
+            desc(Notification.time)
+        ).all()
+        
+        if not listnot:
             return []
         
-    return notifications
+        for item in listnot:
+            if not item.deleted:
+                notification_dict = {
+                    "id": item.id,
+                    "user_id": item.user_id,
+                    "description": item.description,
+                    "time": item.time,
+                    "read": item.read,
+                    "title": item.title,
+                    "sender": item.sender,
+                    "deleted": item.deleted,
+                    # "level": item.level,
+                }
+                notifications.append(notification_dict)
+            
+        return notifications
+
 
 def acceptNotification(user_id,des,db):
     notif_date = datetime.utcnow()
@@ -91,4 +110,4 @@ def sendEmails(SendEmails:SendEmails):
     
     send_emails(SendEmails)
         
-    return "succedded"
+    return {"details":"Emails sent successfully."}

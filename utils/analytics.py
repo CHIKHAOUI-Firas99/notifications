@@ -188,7 +188,9 @@ def get_top_desk_reservations(db: Session):
         reservation_data = db.query(Reservation.desk_id).all()
         df = pd.DataFrame(reservation_data, columns=['desk_id'])
         top_desk_reservations = df['desk_id'].value_counts().reset_index().rename(columns={'index': 'desk_id', 'desk_id': 'count'})
+        top_desk_reservations = top_desk_reservations.head(5)  # Limit to top 5 reservations
         return top_desk_reservations.to_dict('records')
+
     except Exception as e:
         print(f"Error retrieving top desk reservations: {str(e)}")
         return None

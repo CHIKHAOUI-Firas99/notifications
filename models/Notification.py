@@ -11,4 +11,5 @@ class Notification(Base):
     sender=Column(String(50))
     deleted=Column(BOOLEAN)
     level=Column(String(10),nullable=True)
+    
 

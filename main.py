@@ -51,7 +51,7 @@ def reminder():
                 send_email(user.email, subject='Work slot reservation reminder', body=text)
 scheduler = BackgroundScheduler()
 
-@scheduler.scheduled_job(trigger=CronTrigger(day_of_week='sun', hour=00,minute=16))
+@scheduler.scheduled_job(trigger=CronTrigger(day_of_week='thu', hour=17,minute=15))
 def my_task():
      
      reminder()
