@@ -15,7 +15,7 @@ environment {
           withSonarQubeEnv (installationName:'SonarQube'){
             sh """ export PATH="$PATH:/opt/sonar-scanner/bin"
                 sonar-scanner \
-                -Dsonar.projectKey=mapservice \
+                -Dsonar.projectKey=notification \
                 -Dsonar.sources=. \
                 -Dsonar.host.url=http://192.168.162.104:9000 \
                 -Dsonar.login=d8f04174ecc1ef5650338a7899cbea00c7062f25"""
